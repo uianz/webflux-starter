@@ -1,0 +1,6 @@
+spring:
+  data:
+    elasticsearch:
+      client:
+        reactive:
+          endpoints: 10.7.71.24:9200
