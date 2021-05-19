@@ -22,26 +22,26 @@ public class R<T> {
     }
 
     public static <T> Mono<R<T>> success() {
-        return of(RespCode.SUCCEED);
+        return of(RCode.SUCCEED);
     }
 
     public static <T> Mono<R<T>> success(T data) {
-        return of(RespCode.SUCCEED, data);
+        return of(RCode.SUCCEED, data);
     }
 
     public static <T> Mono<R<T>> fail() {
-        return of(RespCode.SERVER_ERROR);
+        return of(RCode.SERVER_ERROR);
     }
 
     public static <T> Mono<R<T>> fail(String message) {
-        return of(RespCode.SERVER_ERROR.getCode(), message);
+        return of(RCode.SERVER_ERROR.getCode(), message);
     }
 
     public static <T> Mono<R<T>> fail(Integer code, String message) {
         return of(code, message);
     }
 
-    public static <T> Mono<R<T>> of(RespCode respCode) {
+    public static <T> Mono<R<T>> of(RCode respCode) {
         return of(respCode.getCode(), respCode.getMessage());
     }
 
@@ -49,7 +49,7 @@ public class R<T> {
         return of(code, message, null);
     }
 
-    public static <T> Mono<R<T>> of(RespCode respCode, T data) {
+    public static <T> Mono<R<T>> of(RCode respCode, T data) {
         return of(respCode.getCode(), respCode.getMessage(), data);
     }
 

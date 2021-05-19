@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.uianz</groupId>
-    <artifactId>es-demo</artifactId>
+    <artifactId>starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>es-demo</name>
     <description>Demo project for Spring Boot</description>
