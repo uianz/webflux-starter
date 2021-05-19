@@ -10,7 +10,7 @@ public enum RCode {
     /**
      * 成功
      */
-    SUCCEED(200, "success!"),
+    OK(200, "ok!"),
 
     /**
      * 服务器错误

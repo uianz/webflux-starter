@@ -5,6 +5,7 @@ import com.uianz.modules.person.repository.PersonRepository;
 import com.uianz.resp.R;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.CorePublisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -33,10 +34,25 @@ public class PersonController {
         return personRepository.findById(id);
     }
 
-    @GetMapping
-    public Mono<R<Flux<Person>>> list() {
-        return R.success(personRepository.findAll());
+    @GetMapping("/test")
+    public Mono<R<Integer>> test(){
+        return R.ok(Mono.just(1));
     }
+
+    @GetMapping("/test2")
+    public Mono test2(){
+        return R.ok(Flux.just(1, 2));
+    }
+
+    @GetMapping("/test3")
+    public Mono test3(){
+        return R.fail("is a error message");
+    }
+
+//    @GetMapping
+//    public Mono list() {
+//        return R.ok(personRepository.findAll());
+//    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
