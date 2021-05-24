@@ -14,21 +14,30 @@
     <name>es-demo</name>
     <description>Demo project for Spring Boot</description>
     <properties>
+        <webflux.version>2.5.0</webflux.version>
+        <spring-data-es.version>2.5.0</spring-data-es.version>
         <java.version>11</java.version>
+        <vavr.version>0.10.3</vavr.version>
+        <aspectj.version>1.9.6</aspectj.version>
+        <hutool.version>5.6.5</hutool.version>
+        <spring-data-elasticsearch.version>4.2.2-SNAPSHOT</spring-data-elasticsearch.version>
+        <knif4j.version>3.0.2</knif4j.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+            <version>${spring-data-es.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
+            <version>${webflux.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.4.7</version>
+            <version>${hutool.version}</version>
         </dependency>
 
         <dependency>
@@ -49,7 +58,22 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <version>1.9.6</version>
+            <version>${aspectj.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vavr</groupId>
+            <artifactId>vavr</artifactId>
+            <version>${vavr.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vavr</groupId>
+            <artifactId>vavr-jackson</artifactId>
+            <version>${vavr.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>${knif4j.version}</version>
         </dependency>
     </dependencies>
 

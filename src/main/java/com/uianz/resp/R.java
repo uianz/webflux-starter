@@ -1,5 +1,6 @@
 package com.uianz.resp;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import reactor.core.publisher.Flux;
@@ -7,12 +8,16 @@ import reactor.core.publisher.Mono;
 
 import java.io.Serializable;
 
+import static io.vavr.API.*;
+import static io.vavr.Predicates.instanceOf;
+
 /**
  * @author uianz
  * @date 2021/5/14
  */
 @Data
 @Accessors(chain = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class R<T> implements Serializable {
 
     private Integer code;
@@ -53,26 +58,30 @@ public class R<T> implements Serializable {
     }
 
     public static <T> Mono<R<T>> of(Integer code, String message) {
-        return of(code, message, Mono.empty());
+        return of(code, message, Mono.never());
     }
 
     public static <T> Mono<R<T>> of(RCode respCode, Object data) {
         return of(respCode.getCode(), respCode.getMessage(), data);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> Mono<R<T>> of(Integer code, String message, Object data) {
-        Mono monoData;
-        if (data instanceof Mono) {
-            monoData = (Mono) data;
-        } else if (data instanceof Flux) {
-            monoData = ((Flux) data).collectSortedList();
-        } else {
-            throw new RuntimeException("parse response error");
-        }
-        return monoData.map(d -> new R<T>()
-                .setCode(code)
-                .setMessage(message)
-                .setData(d));
+        var r = new R<T>().setCode(code).setMessage(message);
+        return Match(data)
+                .of(
+                        Case($(instanceOf(Mono.class)), mono -> mono),
+                        Case($(instanceOf(Flux.class)), Flux::collectSortedList),
+//                        Case($(), Mono.error(() -> new RuntimeException("'data' is unsupported type")))
+                        Case($(), Mono::just)
+                )
+                .map(r::setData)
+                .or(Mono.just(r));
+    }
+
+    public static void main(String[] args) {
+        var a = of(1, "error", Mono.never());
+        a.doOnNext(System.out::println).subscribe();
     }
 
 }
