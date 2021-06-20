@@ -59,7 +59,7 @@ public class PersonController {
         return R.ok(Flux.just(1, 2));
     }
 
-    @GetMapping("/test3")
+    @GetMapping("/test4")
     @ApiOperation("test error")
     public Mono<R<Integer>> test3(){
         return R.fail("is a error message");
