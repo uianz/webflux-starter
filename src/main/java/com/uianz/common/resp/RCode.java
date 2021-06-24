@@ -1,4 +1,4 @@
-package com.uianz.resp;
+package com.uianz.common.resp;
 import lombok.AllArgsConstructor;
 
 import lombok.Getter;

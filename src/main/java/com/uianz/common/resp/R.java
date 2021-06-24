@@ -1,15 +1,14 @@
-package com.uianz.resp;
+package com.uianz.common.resp;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.Serializable;
-
-import static io.vavr.API.*;
-import static io.vavr.Predicates.instanceOf;
+import java.util.List;
 
 /**
  * @author uianz
@@ -18,13 +17,14 @@ import static io.vavr.Predicates.instanceOf;
 @Data
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ApiModel("R")
 public class R<T> implements Serializable {
 
     private Integer code;
 
     private String message;
 
-    private Object data;
+    private T data;
 
     public R() {
     }
@@ -37,12 +37,18 @@ public class R<T> implements Serializable {
         return of(RCode.OK, data);
     }
 
-    public static <T> Mono<R<T>> ok(Flux<T> data) {
-        return of(RCode.OK, data);
+    public static <T> Mono<R<List<T>>> ok(Flux<T> data) {
+        return of(RCode.OK, data.collectList());
     }
 
-    public static <T> Mono<R<T>> fail() {
+    @SuppressWarnings("rawtypes")
+    public static Mono fail() {
         return of(RCode.SERVER_ERROR);
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static R failEntity(){
+        return new R().setCode(RCode.SERVER_ERROR.getCode()).setMessage(RCode.SERVER_ERROR.getMessage());
     }
 
     public static <T> Mono<R<T>> fail(String message) {
@@ -61,22 +67,15 @@ public class R<T> implements Serializable {
         return of(code, message, Mono.never());
     }
 
-    public static <T> Mono<R<T>> of(RCode respCode, Object data) {
+    public static <T> Mono<R<T>> of(RCode respCode, Mono<T> data) {
         return of(respCode.getCode(), respCode.getMessage(), data);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> Mono<R<T>> of(Integer code, String message, Object data) {
+    public static <T> Mono<R<T>> of(Integer code, String message, Mono<T> data) {
         var r = new R<T>().setCode(code).setMessage(message);
-        return Match(data)
-                .of(
-                        Case($(instanceOf(Mono.class)), mono -> mono),
-                        Case($(instanceOf(Flux.class)), Flux::collectSortedList),
-//                        Case($(), Mono.error(() -> new RuntimeException("'data' is unsupported type")))
-                        Case($(), Mono::just)
-                )
-                .map(r::setData)
-                .or(Mono.just(r));
+        return data.map(r::setData)
+                .switchIfEmpty(Mono.just(r));
     }
 
     public static void main(String[] args) {

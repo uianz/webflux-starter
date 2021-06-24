@@ -1,9 +1,8 @@
 spring:
-  data:
-    elasticsearch:
-      client:
-        reactive:
-          endpoints: localhost:9200
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/cps?useUnicode=true&characterEncoding=utf8&currentSchema=public
+    username: postgres
+    password: postgres
 
 server:
   port: 9000
