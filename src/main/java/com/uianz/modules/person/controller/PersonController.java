@@ -5,9 +5,7 @@ import com.uianz.modules.person.bean.Person;
 import com.uianz.modules.person.repository.PersonRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -34,7 +32,7 @@ public class PersonController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "id获取单个用户", response = Person.class)
-    public Mono<R<Person>> getById(@PathVariable String id) {
+    public Mono<R<Person>> getById(@PathVariable Integer id) {
         return R.ok(personRepository.findById(id));
     }
 
@@ -46,7 +44,7 @@ public class PersonController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "id删除用户")
-    public Mono<Void> delete(@PathVariable("id") String id) {
+    public Mono<Void> delete(@PathVariable("id") Integer id) {
         return personRepository.deleteById(id);
     }
 

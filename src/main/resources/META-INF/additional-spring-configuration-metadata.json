@@ -1,0 +1,21 @@
+{
+  "properties": [
+    {
+      "name": "custom.db.url",
+      "type": "java.lang.String",
+      "description": "Description for custom.db.url.",
+      "defaultValue": "postgresql://localhost:5432/postgres"
+    },
+    {
+      "name": "custom.db.username",
+      "type": "java.lang.String",
+      "description": "Description for custom.db.username.",
+      "defaultValue": "postgres"
+    },
+    {
+      "name": "custom.db.password",
+      "type": "java.lang.String",
+      "description": "Description for custom.db.password.",
+      "defaultValue": "postgres"
+    }
+  ] }

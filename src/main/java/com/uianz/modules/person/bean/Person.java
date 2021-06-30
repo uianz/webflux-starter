@@ -1,21 +1,18 @@
 package com.uianz.modules.person.bean;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Value;
+import lombok.With;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
 /**
  * @author uianz
  * @date 2021/5/14
  */
-@Data
-@Table
-@ApiModel("person")
+@Value
 public class Person{
+    @With
     @Id
-    private Integer id;
-    private String name;
-    private Integer age;
+    Integer id;
+    String name;
+    Integer age;
 }

@@ -1,8 +1,32 @@
-spring:
-  r2dbc:
-    url: r2dbc:postgresql://localhost:5432/cps?useUnicode=true&characterEncoding=utf8&currentSchema=public
+custom:
+  db:
+    url: 'postgresql://localhost:5432/postgres'
     username: postgres
     password: postgres
 
+spring:
+  r2dbc:
+    url: r2dbc:${custom.db.url}
+    username: ${custom.db.username}
+    password: ${custom.db.password}
+    pool:
+      validation-query: select 1
+    properties:
+      lock_timeout: 40000
+      statement_timeout: 40000
+      idle_in_transaction_session_timeout: 40000
+      connectTimeout: PT55S
+  flyway:
+#    url: jdbc:postgresql://localhost:5432;database=cps
+    url: jdbc:${custom.db.url}
+    user: ${custom.db.username}
+    password: ${custom.db.password}
+    schemas: public
+  profiles:
+    active: dev
 server:
   port: 9000
+
+#logging:
+#  level: warn
+
