@@ -41,14 +41,12 @@ public class R<T> implements Serializable {
         return of(RCode.OK, data.collectList());
     }
 
-    @SuppressWarnings("rawtypes")
-    public static Mono fail() {
+    public static <T> Mono<R<T>> fail() {
         return of(RCode.SERVER_ERROR);
     }
 
-    @SuppressWarnings("rawtypes")
-    public static R failEntity(){
-        return new R().setCode(RCode.SERVER_ERROR.getCode()).setMessage(RCode.SERVER_ERROR.getMessage());
+    public static <T> R<T> failEntity(){
+        return new R<T>().setCode(RCode.SERVER_ERROR.getCode()).setMessage(RCode.SERVER_ERROR.getMessage());
     }
 
     public static <T> Mono<R<T>> fail(String message) {
@@ -64,14 +62,13 @@ public class R<T> implements Serializable {
     }
 
     public static <T> Mono<R<T>> of(Integer code, String message) {
-        return of(code, message, Mono.never());
+        return of(code, message, Mono.empty());
     }
 
     public static <T> Mono<R<T>> of(RCode respCode, Mono<T> data) {
         return of(respCode.getCode(), respCode.getMessage(), data);
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> Mono<R<T>> of(Integer code, String message, Mono<T> data) {
         var r = new R<T>().setCode(code).setMessage(message);
         return data.map(r::setData)
@@ -79,7 +76,7 @@ public class R<T> implements Serializable {
     }
 
     public static void main(String[] args) {
-        var a = of(1, "error", Mono.never());
+        var a = of(1, "error", Mono.empty());
         a.doOnNext(System.out::println).subscribe();
     }
 
