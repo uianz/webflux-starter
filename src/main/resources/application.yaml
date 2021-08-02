@@ -1,6 +1,6 @@
 custom:
   db:
-    url: 'postgresql://localhost:5432/postgres'
+    url: 'postgresql://localhost:5432/r2dbc'
     username: postgres
     password: postgres
 
@@ -22,11 +22,20 @@ spring:
     user: ${custom.db.username}
     password: ${custom.db.password}
     schemas: public
+  redis:
+    jedis:
+      pool:
+        max-idle: 500
+        min-idle: 50
+        max-active: 2000
+        max-wait: 1000
+    host: 127.0.0.1
+    port: 6379
+    timeout: 5000
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
   profiles:
     active: dev
 server:
   port: 9000
-
-#logging:
-#  level: warn
 

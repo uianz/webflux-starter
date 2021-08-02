@@ -1,6 +1,7 @@
 package com.uianz.common.resp;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+//import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.experimental.Accessors;

@@ -12,16 +12,16 @@
     <artifactId>webflux-starter</artifactId>
     <version>1.0.0</version>
     <name>webflux-starter</name>
-    <description>Demo project for Spring Boot</description>
+    <description>webflux-starter</description>
     <properties>
         <webflux.version>2.5.0</webflux.version>
-        <querydsl.version>6.0.0.M1</querydsl.version>
+        <infobip-spring-data-r2dbc-querydsl.version>6.0.0</infobip-spring-data-r2dbc-querydsl.version>
         <java.version>11</java.version>
         <vavr.version>0.10.3</vavr.version>
         <aspectj.version>1.9.6</aspectj.version>
-        <hutool.version>5.6.5</hutool.version>
-        <spring-data-elasticsearch.version>4.2.2-SNAPSHOT</spring-data-elasticsearch.version>
-        <knif4j.version>3.0.3</knif4j.version>
+        <hutool.version>5.7.5</hutool.version>
+        <querydsl.version>5.0.0.M1</querydsl.version>
+        <knife4j.version>3.0.3</knife4j.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -41,9 +41,13 @@
             <version>${webflux.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.infobip</groupId>
             <artifactId>infobip-spring-data-r2dbc-querydsl</artifactId>
-            <version>${querydsl.version}</version>
+            <version>${infobip-spring-data-r2dbc-querydsl.version}</version>
             <!--找不到querydsl-core和querydsl-apt6.0的版本-->
             <exclusions>
                 <exclusion>
@@ -56,17 +60,18 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-core -->
         <dependency>
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-core</artifactId>
-            <version>5.0.0.M1</version>
+            <version>${querydsl.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-apt -->
         <dependency>
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-apt</artifactId>
-            <version>5.0.0.M1</version>
+            <version>${querydsl.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.querydsl</groupId>
@@ -130,7 +135,7 @@
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>${knif4j.version}</version>
+            <version>${knife4j.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-processor -->

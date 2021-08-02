@@ -1,11 +1,9 @@
 package com.uianz;
 
 
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
-import org.springframework.test.context.TestConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -15,11 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
-
-@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-@TestInstance(PER_CLASS)
-@SpringBootTest(classes = Main.class)
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class TestBase {
 
     @Autowired
@@ -34,7 +28,7 @@ public abstract class TestBase {
 //    }
 
     @Nullable
-    private <T> T block(Mono<T> mono) {
+    <T> T block(Mono<T> mono) {
         return mono.block(Duration.ofSeconds(10));
     }
 

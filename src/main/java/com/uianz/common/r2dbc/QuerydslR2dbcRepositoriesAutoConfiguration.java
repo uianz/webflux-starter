@@ -21,14 +21,13 @@ import org.springframework.core.env.Environment;
 @Configuration
 public class QuerydslR2dbcRepositoriesAutoConfiguration {
 
+    @Autowired
+    private Environment env;
+
     @Bean
     public SQLTemplates sqlTemplates(){
         return PostgreSQLTemplates.DEFAULT;
     }
-
-
-    @Autowired
-    private Environment env;
 
     @Bean(initMethod = "migrate")
     public Flyway flyway() {

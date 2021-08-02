@@ -1,11 +1,12 @@
 package com.uianz.modules.person.controller;
 
+import com.uianz.common.page.PageRequest;
+import com.uianz.common.page.PageResult;
 import com.uianz.common.resp.R;
 import com.uianz.modules.person.bean.Person;
 import com.uianz.modules.person.repository.PersonRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -21,8 +22,11 @@ import java.util.List;
 @Api(tags = "person")
 public class PersonController {
 
-    @Autowired
-    private PersonRepository personRepository;
+    private final PersonRepository personRepository;
+
+    public PersonController(PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
 
     @PostMapping
     @ApiOperation(value = "新增用户")
@@ -36,10 +40,26 @@ public class PersonController {
         return R.ok(personRepository.findById(id));
     }
 
+    @GetMapping("/mono")
+    public Mono<R<String>> getMono(Mono<String> name) {
+        return R.ok(name);
+    }
+
+    @GetMapping("/vavrList")
+    public Mono<R<io.vavr.collection.List<String>>> getVavrList(io.vavr.collection.List<String> names) {
+        return R.ok(Mono.just(names));
+    }
+
     @GetMapping
     @ApiOperation(value = "获取所有用户")
     public Mono<R<List<Person>>> list() {
         return R.ok(personRepository.findAll());
+    }
+
+    @GetMapping("/page")
+    @ApiOperation(value = "分页列表")
+    public Mono<R<PageResult<Person>>> page(PageRequest request) {
+        return R.ok(personRepository.page(request.newPageRequest()));
     }
 
     @DeleteMapping("/{id}")
@@ -68,7 +88,7 @@ public class PersonController {
 
     @GetMapping("/error")
     @ApiOperation("throw exception")
-    public Mono testError(){
+    public Mono testError() {
         return Mono.error(RuntimeException::new);
     }
 }

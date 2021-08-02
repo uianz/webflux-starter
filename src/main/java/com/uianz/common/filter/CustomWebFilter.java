@@ -1,6 +1,5 @@
 package com.uianz.common.filter;
 
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
@@ -17,7 +16,7 @@ public class CustomWebFilter implements WebFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        ServerHttpRequest request = exchange.getRequest();
+//        ServerHttpRequest request = exchange.getRequest();
 //        MultiValueMap<String, String> queryParams = request.getQueryParams();
 //        if (ObjectUtil.isEmpty(queryParams.getFirst("token"))) {
 //            Map<String, String> resultMap = new HashMap<>();
@@ -36,9 +35,10 @@ public class CustomWebFilter implements WebFilter {
 //            return response.writeWith(Mono.just(buffer));
 //        }
 
-        return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-            ServerHttpResponse response = exchange.getResponse();
-            //Manipulate the response in some way
-        }));
+        return chain.filter(exchange)
+                .then(Mono.fromRunnable(() -> {
+                    ServerHttpResponse response = exchange.getResponse();
+                    //Manipulate the response in some way
+                }));
     }
 }
